@@ -10,7 +10,7 @@ h1 {
   text-align: center;
   color: red;
   text-shadow: 2px 2px #E2E8F0;
-  margin-top: 50px;
+  margin-top: 20px;
   margin-bottom: 50px;
 }
 
@@ -30,7 +30,7 @@ background-color: #011839;
 .css-17lntkn    {
 background-color: #011839;
     background-image: none;
-    color: white;
+    color: black;
     font-size: 20px;
     font-weight: bold;
 }
@@ -98,11 +98,11 @@ thead th {
 }
 
 tbody tr:nth-child(even) {
-  background-color: #E2E8F0;
+  background-color: black;
 }
 
 tbody td {
-  padding: 10px;
+  padding: 40px;
 }
 
 tbody td a {

@@ -7,14 +7,14 @@ import time
 import base64
 
 st.set_page_config(page_title="Gpt-AutoSustentable", page_icon=":memo:")
-hide_st_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_st_style, unsafe_allow_html=True)
+# hide_st_style = """
+#             <style>
+#             #MainMenu {visibility: hidden;}
+#             footer {visibility: hidden;}
+#             header {visibility: hidden;}
+#             </style>
+#             """
+# st.markdown(hide_st_style, unsafe_allow_html=True)
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
@@ -22,13 +22,14 @@ local_css("estilos.css")
 class SessionState:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
-
+st.title("Gpt-AutoSustentable")
 async def main():
     start_time = time.time()
     bot = await Chatbot.create(cookie_path='./cookies.json')
-    st.title("Gpt-AutoSustentable")
+    
     session_state = SessionState(download_button=False)
-    prompt = st.text_input("Por favor Ingresa Tu Consulta")
+    st.title("Ingresa tu Pregunta")
+    prompt = st.text_input("")
     
     if st.button("Preguntar"):
         with st.spinner('Procesando pregunta...'):
