@@ -57,7 +57,7 @@ async def main():
             if not session_state.download_button:
                 session_state.download_button = True
                 download_data = base64.b64encode(result.encode()).decode()
-                href = f'<a href="data:file/txt;base64,{download_data}" download="resultado.txt">Haz clic aquí para descargar el archivo</a>'
+                href = f'<a href="data:file/txt;base64,{download_data}" download="resultado.txt">Haz clic aquí para descargar la informacion</a>'
                 st.markdown(href, unsafe_allow_html=True)
 
 if __name__ == "__main__":
