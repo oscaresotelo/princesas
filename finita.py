@@ -5,6 +5,7 @@ import re
 import json
 import time
 import base64
+from st_pages import Page, show_pages, add_page_title
 
 st.set_page_config(page_title="Gpt-AutoSustentable", page_icon=":memo:")
 hide_st_style = """
@@ -29,6 +30,13 @@ async def main():
     
     session_state = SessionState(download_button=False)
     st.title("Ingresa tu Pregunta")
+    show_pages([
+        
+        Page("finita.py", "Ingresar Preguntas"),
+        Page("fina2.py", "Cargar Foto Tarea", ":notebook:"),
+        
+       
+])
     prompt = st.text_input("")
     
     if st.button("Preguntar"):

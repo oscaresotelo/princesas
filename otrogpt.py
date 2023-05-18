@@ -1,11 +1,14 @@
-import asyncio
-from EdgeGPT import Chatbot
+diccionario = ["\n3", "Hola\n", "Mundo", "Adiós\n"]
 
-async def main():
-    bot = Chatbot()
-    print(await bot.ask(prompt="Hello world"))
-    await bot.close()
+# Eliminar '\n' de la palabra específica y de todas las palabras que lo contengan
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+cadena_texto = "{"
+for key, value in diccionario.items():
+	cadena_texto += f"'{key}': '{value}', "
+	cadena_texto = cadena_texto.rstrip(", ")
+	cadena_texto += "}"
+
+	cadena_texto = cadena_texto.replace('\n', '')
+
+print(cadena_texto)
