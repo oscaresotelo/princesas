@@ -37,7 +37,7 @@ async def main():
         
        
 ])
-    prompt = st.text_input("")
+    prompt = st.text_area("", height=275)
     
     if st.button("Preguntar"):
         with st.spinner('Procesando pregunta...'):
