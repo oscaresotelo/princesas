@@ -7,7 +7,7 @@ import time
 import base64
 from PIL import Image
 import pytesseract
-#pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 # st.set_page_config(page_title="Gpt-AutoSustentable", page_icon=":memo:")
 hide_st_style = """
             <style>
@@ -58,7 +58,7 @@ async def main():
         #prompt = st.write("{}".format(texto))
         
         textoprocesado = texto
-        preguntas = st.text_area("Editar La Pregunta:",textoprocesado, height=275)
+        preguntas = st.text_area("Editar La Pregunta:", "{}".format(textoprocesado), height=275)
         if st.button("Preguntar"):
 
             with st.spinner('Procesando pregunta...'):
