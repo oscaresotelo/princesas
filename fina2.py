@@ -53,7 +53,7 @@ async def main():
         st.sidebar.image(img, width=350)
         st.info("Por Favor Solo Dejar las Preguntas")
             
-        texto = pytesseract.image_to_string(img, lang="por")
+        texto = pytesseract.image_to_string(img, lang="spa")
         
         #prompt = st.write("{}".format(texto))
         
