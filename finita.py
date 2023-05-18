@@ -51,7 +51,9 @@ async def main():
             cadena_texto = cadena_texto.rstrip(", ")
             cadena_texto += "}"
 
-            cadena_texto = cadena_texto.replace('\n', '')
+            
+            cadena_texto = cadena_texto.replace("Hola, este es Bing.", "")
+            cadena_texto = cadena_texto.replace("</strong>", "</strong><br>")
             cadena_texto = re.sub(r'\[\^.\^\]', '', cadena_texto)
             start = "'Keyboard'}, {'text': '"
             end = "', 'author':"
