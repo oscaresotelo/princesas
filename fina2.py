@@ -10,7 +10,7 @@ import pytesseract
 from gtts import gTTS
 import tempfile
 import os
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+# pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 # st.set_page_config(page_title="Gpt-AutoSustentable", page_icon=":memo:")
 hide_st_style = """
             <style>
