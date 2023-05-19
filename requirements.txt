@@ -80,7 +80,6 @@ python-dateutil
 python-dotenv
 pyttsx3
 pytz
-pywin32
 regex
 requests
 rich
