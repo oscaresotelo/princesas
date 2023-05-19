@@ -6,6 +6,9 @@ import json
 import time
 import base64
 from st_pages import Page, show_pages, add_page_title
+from gtts import gTTS
+import tempfile
+import os
 
 st.set_page_config(page_title="Gpt-AutoSustentable", page_icon=":memo:")
 hide_st_style = """
@@ -24,6 +27,15 @@ class SessionState:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 st.title("Gpt-AutoSustentable")
+
+def text_to_speech(text):
+    tts = gTTS(text=text, lang="es", tld='us')
+    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    temp_file.close()
+    tts.save(temp_file.name)
+    return temp_file.name
+
+
 async def main():
     start_time = time.time()
     bot = await Chatbot.create(cookie_path='./cookies.json')
@@ -52,16 +64,26 @@ async def main():
             cadena_texto += "}"
 
             
+            cadena_texto = cadena_texto.replace('\n', '')
+            cadena_texto = cadena_texto.replace('\n\n', '')
+            cadena_texto = cadena_texto.replace('\n\n', '')
+            cadena_texto = cadena_texto.replace('**', '')
+            cadena_texto = cadena_texto.replace("\n-", "")
             cadena_texto = cadena_texto.replace("Hola, este es Bing.", "")
             cadena_texto = cadena_texto.replace("</strong>", "</strong><br>")
+            cadena_texto = re.sub(r'\\n', '\n', cadena_texto)
             cadena_texto = re.sub(r'\[\^.\^\]', '', cadena_texto)
             start = "'Keyboard'}, {'text': '"
             end = "', 'author':"
+            cadena_texto = cadena_texto.replace('</strong>', '</strong><br>')
             result = cadena_texto.split(start)[1].split(end)[0]
 
-            st.write(result)
-
+            resultado = st.write(result)
+            sample_rate = 44100
+            audio_file = text_to_speech(result)
+            st.audio(audio_file, format='audio/mp3')
             elapsed_time = time.time() - start_time
+            os.remove(audio_file)
             st.write(f"Tiempo transcurrido: {elapsed_time} segundos")
 
             if not session_state.download_button:
@@ -69,6 +91,7 @@ async def main():
                 download_data = base64.b64encode(result.encode()).decode()
                 href = f'<a href="data:file/txt;base64,{download_data}" download="resultado.txt">Haz clic aquí para descargar la informacion</a>'
                 st.markdown(href, unsafe_allow_html=True)
-
+    
+                
 if __name__ == "__main__":
     asyncio.run(main())
