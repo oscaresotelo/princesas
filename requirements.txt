@@ -72,7 +72,6 @@ Pygments
 Pympler
 pyOpenSSL
 pyparsing
-pypiwin32
 pyrsistent
 PySocks
 pytesseract
