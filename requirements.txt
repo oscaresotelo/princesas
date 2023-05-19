@@ -62,7 +62,6 @@ pvleoparddemo
 pvrecorder
 pyarrow
 pyasn1
-PyAudio
 pybase64
 pyChatGPT
 pycparser
