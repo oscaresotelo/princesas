@@ -72,6 +72,7 @@ Pygments==2.15.1
 Pympler==1.0.1
 pyOpenSSL==23.1.1
 pyparsing==3.0.9
+pypiwin32==223
 pyrsistent==0.19.3
 PySocks==1.7.1
 pytesseract==0.3.10
@@ -80,6 +81,7 @@ python-docx==0.8.11
 python-dotenv==1.0.0
 pyttsx3==2.90
 pytz==2023.3
+pywin32==306
 regex==2023.5.5
 requests==2.30.0
 rich==13.3.5
