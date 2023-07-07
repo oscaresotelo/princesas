@@ -6,7 +6,7 @@ conn = sqlite3.connect('codigopython.db')
 c = conn.cursor()
 
 # Obtener todos los registros de la tabla 'codigo'
-c.execute("SELECT nombre, scriptcodigoFROM codigo")
+c.execute("SELECT nombre, scriptcodigo FROM codigo")
 registros = c.fetchall()
 hide_st_style = """
             <style>
