@@ -1,6 +1,7 @@
 import asyncio
 from EdgeGPT import Chatbot, ConversationStyle
 
+
 async def main():
     
     bot = await Chatbot.create(cookie_path='./cookies.json')
