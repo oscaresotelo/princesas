@@ -98,14 +98,16 @@ async def main():
             else:
                 guardar_codigo(nombre, st.session_state.codigo)
                 st.success("Código guardado exitosamente en la base de datos.")
-    improve = """import streamlit as st, import io, escribir directamemte el codigo , no explicar,importar y controlar que se hayan importado correctamente,IMPORTANTE RECORDAR QUE El objeto 'DataFrame' no tiene el atributo 'append',
-                as librerias necesarias para que el codigo
-                no genere errores,IMPORTANTE GENERAR EL CODIGO EN UN SOLO ARCHIVO, Estructurawr aplicación para mejorar 
-                su mantenibilidad y escalabilidad,Desarrollando interfaces de usuario avanzadas con funciones de UI renderizadas por st.session_state
-                Creando elementos de UI reutilizables para varias páginas,  Agregando estilos limitados con lenguajes markdown y componentes estáticos de Streamlit
-                Colocando elementos de Streamlit de forma programática,IMPORTANTE RECORDAR QUE El objeto 'DataFrame' no tiene el atributo 'append', importar libreria base64 para generar link de descargar,
-                debes trabajar con la libreria pandas actualizada, IMPORTANTE ESCRIBIR EL CODIGO EN UN SOLO ARCHIVO, USAR COMILLAS SIMPLES PARA DELIMITAR TEXTO,
-                REALIZAR EL SIGUIENTE SIGUIENTE PEDIDO: """
+    # improve = """import streamlit as st, import io, escribir directamemte el codigo , no explicar,importar y controlar que se hayan importado correctamente,IMPORTANTE RECORDAR QUE El objeto 'DataFrame' no tiene el atributo 'append',
+    #             as librerias necesarias para que el codigo
+    #             no genere errores,IMPORTANTE GENERAR EL CODIGO EN UN SOLO ARCHIVO, Estructurawr aplicación para mejorar 
+    #             su mantenibilidad y escalabilidad,Desarrollando interfaces de usuario avanzadas con funciones de UI renderizadas por st.session_state
+    #             Creando elementos de UI reutilizables para varias páginas,  Agregando estilos limitados con lenguajes markdown y componentes estáticos de Streamlit
+    #             Colocando elementos de Streamlit de forma programática,IMPORTANTE RECORDAR QUE El objeto 'DataFrame' no tiene el atributo 'append', importar libreria base64 para generar link de descargar,
+    #             debes trabajar con la libreria pandas actualizada, IMPORTANTE ESCRIBIR EL CODIGO EN UN SOLO ARCHIVO, recordar que streamlit no usa 
+    #   ,USAR COMILLAS SIMPLES PARA DELIMITAR TEXTO,
+    #             REALIZAR EL SIGUIENTE  PEDIDO: """
+    improve = "import streamlit as st,Agregar estilos limitados con lenguajes markdown y componentes estáticos de Streamlit, la Solicitud es la siguiente:  "
     texto = st.text_area("", height=275)
     prompt = improve + texto 
     
@@ -113,7 +115,7 @@ async def main():
     if st.button("Generar"):
         with st.spinner('Procesando Solicitud...'):
             diccionario = await bot.ask(prompt=prompt, conversation_style=ConversationStyle.creative)
-
+            
             cadena_texto = "{"
             for key, value in diccionario.items():
                 cadena_texto += f"'{key}': '{value}', "
@@ -125,6 +127,7 @@ async def main():
             cadena_texto = cadena_texto.replace('\n\n', '')
             cadena_texto = cadena_texto.replace('**', '')
             cadena_texto = cadena_texto.replace("\n-", "")
+            cadena_texto = cadena_texto.replace("\'", "'")
             cadena_texto = cadena_texto.replace("Hola, este es Bing.", "")
             cadena_texto = cadena_texto.replace("</strong>", "</strong><br>")
             cadena_texto = re.sub(r'\\n', '\n', cadena_texto)
@@ -136,11 +139,13 @@ async def main():
             start = "'Keyboard'}, {'text': '"
             end = "', 'author':"
             cadena_texto = cadena_texto.replace('</strong>', '</strong><br>')
-            result = cadena_texto.split(start)[1].split(end)[0]
-            st.write(result)
-            # resultado = st.write(result)
-            st.session_state.codigo = (extract_python_code(result))
+            # st.write(cadena_texto)
+
+            # result = cadena_texto.split(start)[1].split(end)[0]
             
+            # resultado = st.write(result)
+            st.session_state.codigo = (extract_python_code(cadena_texto))
+           
             elapsed_time = time.time() - start_time
             
             st.write(f"Tiempo transcurrido: {elapsed_time} segundos")   
