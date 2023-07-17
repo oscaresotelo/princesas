@@ -76,12 +76,12 @@ start_time = time.time()
     
 session_state = SessionState(download_button=False)
 st.title("Ingresa tu Pregunta")
-show_pages([
-    Page("finita.py", "Ingresar Preguntas"),
-    Page("fina2.py", "Cargar Foto Tarea", ":notebook:"),
-    Page("generador.py", "Crear Solucion", ":notebook:"),
-    Page("ejecutarcodigo.py", "Soluciones Creadas", ":notebook:"),
-    ])
+# show_pages([
+#     Page("finita.py", "Ingresar Preguntas"),
+#     Page("fina2.py", "Cargar Foto Tarea", ":notebook:"),
+#     Page("generador.py", "Crear Solucion", ":notebook:"),
+#     Page("ejecutarcodigo.py", "Soluciones Creadas", ":notebook:"),
+#     ])
 prompt = st.text_area("", height=275)
     
 if st.button("Preguntar"):

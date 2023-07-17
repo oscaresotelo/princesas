@@ -12,6 +12,9 @@ from gtts import gTTS
 import tempfile
 import os
 import sqlite3
+from sydney import SydneyClient
+os.environ["BING_U_COOKIE"] = "<your-cookie>"
+
 
 conn = sqlite3.connect('codigopython.db')
 c = conn.cursor()
@@ -66,16 +69,20 @@ def extract_python_code(text):
     else:
         return ""
 
+async def main(prompt) -> None:
 
-async def main():
+    async with SydneyClient() as sydney:
+        response =  await sydney.compose(prompt)
+        return(response)
 
-    st.title("Ingresa tu Pregunta")
-    session_state = get_session_state()
+
+st.title("Ingresa tu Pregunta")
+session_state = get_session_state()
     
     # if "codigo" not in st.session_state:
     #     st.session_state.codigo = ""
-    start_time = time.time()
-    bot = await Chatbot.create(cookie_path='./cookies.json')
+start_time = time.time()
+# bot = await Chatbot.create(cookie_path='./cookies.json')
     
     # session_state = SessionState(download_button=False)
    
@@ -86,18 +93,18 @@ async def main():
     #     Page("generar.py", "Crear Solucion", ":notebook:"),
     #     Page("ejecutarcodigo.py", "Soluciones Creadas", ":notebook:"),
     # ])
-    nombre = st.text_input("Nombre de la Aplicacion:")
-    if st.button("Guardar Aplicacion"):
+nombre = st.text_input("Nombre de la Aplicacion:")
+if st.button("Guardar Aplicacion"):
         
        
-        with st.spinner('Guardando Código en la Base de Datos...'):
-            if len(st.session_state.codigo.strip()) == 0:
+    with st.spinner('Guardando Código en la Base de Datos...'):
+        if len(st.session_state.codigo.strip()) == 0:
                 st.warning("El código está vacío. No se guardará nada.")
-            elif len(nombre.strip()) == 0:
-                st.warning("Por favor, ingrese un nombre para el código.")
-            else:
-                guardar_codigo(nombre, st.session_state.codigo)
-                st.success("Código guardado exitosamente en la base de datos.")
+        elif len(nombre.strip()) == 0:
+            st.warning("Por favor, ingrese un nombre para el código.")
+        else:
+            guardar_codigo(nombre, st.session_state.codigo)
+            st.success("Código guardado exitosamente en la base de datos.")
     # improve = """import streamlit as st, import io, escribir directamemte el codigo , no explicar,importar y controlar que se hayan importado correctamente,IMPORTANTE RECORDAR QUE El objeto 'DataFrame' no tiene el atributo 'append',
     #             as librerias necesarias para que el codigo
     #             no genere errores,IMPORTANTE GENERAR EL CODIGO EN UN SOLO ARCHIVO, Estructurawr aplicación para mejorar 
@@ -107,50 +114,50 @@ async def main():
     #             debes trabajar con la libreria pandas actualizada, IMPORTANTE ESCRIBIR EL CODIGO EN UN SOLO ARCHIVO, recordar que streamlit no usa 
     #   ,USAR COMILLAS SIMPLES PARA DELIMITAR TEXTO,
     #             REALIZAR EL SIGUIENTE  PEDIDO: """
-    improve = "import streamlit as st,Agregar estilos limitados con lenguajes markdown y componentes estáticos de Streamlit, la Solicitud es la siguiente:  "
-    texto = st.text_area("", height=275)
-    prompt = improve + texto 
+improve = """import streamlit as st, import base64, actua como desarrollador senior de streamlit, IMPORTANTE USAR BIBLIOTECA ACTUALIZADA DE  pandas, 
+usar loc en lugar de append, 
+el pedido es el siguiente:  """
+texto = st.text_area("", height=275)
+prompt = improve + texto 
     
     
-    if st.button("Generar"):
-        with st.spinner('Procesando Solicitud...'):
-            diccionario = await bot.ask(prompt=prompt, conversation_style=ConversationStyle.creative)
-            
-            cadena_texto = "{"
-            for key, value in diccionario.items():
-                cadena_texto += f"'{key}': '{value}', "
-            cadena_texto = cadena_texto.rstrip(", ")
-            cadena_texto += "}"
+if st.button("Generar"):
+    with st.spinner('Procesando Solicitud...'):
+        diccionario = asyncio.run(main(prompt))
+       
+            # cadena_texto = "{"
+            # for key, value in diccionario.items():
+            #     cadena_texto += f"'{key}': '{value}', "
+            # cadena_texto = cadena_texto.rstrip(", ")
+            # cadena_texto += "}"
 
-            cadena_texto = cadena_texto.replace('\n', '')
-            cadena_texto = cadena_texto.replace('\n\n', '')
-            cadena_texto = cadena_texto.replace('\n\n', '')
-            cadena_texto = cadena_texto.replace('**', '')
-            cadena_texto = cadena_texto.replace("\n-", "")
-            cadena_texto = cadena_texto.replace("\'", "'")
-            cadena_texto = cadena_texto.replace("Hola, este es Bing.", "")
-            cadena_texto = cadena_texto.replace("</strong>", "</strong><br>")
-            cadena_texto = re.sub(r'\\n', '\n', cadena_texto)
-            cadena_texto = re.sub(r'\[\^.\^\]', '', cadena_texto)
-            start = "'Keyboard'}, {'text': '"
-            end = "', 'author':"
-            cadena_texto = cadena_texto.replace('</strong>', '</strong><br>')
-            result = cadena_texto.split(start)[1].split(end)[0]
-            start = "'Keyboard'}, {'text': '"
-            end = "', 'author':"
-            cadena_texto = cadena_texto.replace('</strong>', '</strong><br>')
-            # st.write(cadena_texto)
+            # cadena_texto = cadena_texto.replace('\n', '')
+            # cadena_texto = cadena_texto.replace('\n\n', '')
+            # cadena_texto = cadena_texto.replace('\n\n', '')
+            # cadena_texto = cadena_texto.replace('**', '')
+            # cadena_texto = cadena_texto.replace("\n-", "")
+            # cadena_texto = cadena_texto.replace("\'", "'")
+            # cadena_texto = cadena_texto.replace("Hola, este es Bing.", "")
+            # cadena_texto = cadena_texto.replace("</strong>", "</strong><br>")
+            # cadena_texto = re.sub(r'\\n', '\n', cadena_texto)
+            # cadena_texto = re.sub(r'\[\^.\^\]', '', cadena_texto)
+            # start = "'Keyboard'}, {'text': '"
+            # end = "', 'author':"
+            # cadena_texto = cadena_texto.replace('</strong>', '</strong><br>')
+            # result = cadena_texto.split(start)[1].split(end)[0]
+            # start = "'Keyboard'}, {'text': '"
+            # end = "', 'author':"
+            # cadena_texto = cadena_texto.replace('</strong>', '</strong><br>')
+            # # st.write(cadena_texto)
 
             # result = cadena_texto.split(start)[1].split(end)[0]
             
             # resultado = st.write(result)
-            st.session_state.codigo = (extract_python_code(cadena_texto))
-           
-            elapsed_time = time.time() - start_time
+        st.session_state.codigo = (extract_python_code(diccionario))
+        
+        elapsed_time = time.time() - start_time
             
-            st.write(f"Tiempo transcurrido: {elapsed_time} segundos")   
-    exec(st.session_state.codigo, globals())
+        st.write(f"Tiempo transcurrido: {elapsed_time} segundos")   
+exec(st.session_state.codigo, globals())
     
-if __name__ == "__main__":
-    asyncio.run(main())
 
