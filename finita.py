@@ -78,7 +78,7 @@ async def main():
     if st.button("Preguntar"):
         with st.spinner('Procesando pregunta...'):
             diccionario = await bot.ask(prompt=prompt, conversation_style=ConversationStyle.creative)
-
+           
             cadena_texto = "{"
             for key, value in diccionario.items():
                 cadena_texto += f"'{key}': '{value}', "
