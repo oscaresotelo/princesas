@@ -2,7 +2,7 @@ import asyncio
 import streamlit as st
 import docx
 from io import BytesIO
-from EdgeGPT import Chatbot, ConversationStyle
+# from EdgeGPT import Chatbot, ConversationStyle
 import re
 import json
 import time
